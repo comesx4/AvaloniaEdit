@@ -122,6 +122,26 @@ namespace AvaloniaEdit
             }
         }
 
+        bool showLeadingSpaces;
+
+        /// <summary>
+        /// Gets/Sets whether to show . for leading space.
+        /// </summary>
+        /// <remarks>The default value is <c>false</c>.</remarks>
+        [DefaultValue(false)]
+        public virtual bool ShowLeadingSpaces
+        {
+            get { return showLeadingSpaces; }
+            set
+            {
+                if (showLeadingSpaces != value)
+                {
+                    showLeadingSpaces = value;
+                    OnPropertyChanged(nameof(ShowLeadingSpaces));
+                }
+            }
+        }
+
         private string _showSpacesGlyph = "\u00B7";
 
         /// <summary>

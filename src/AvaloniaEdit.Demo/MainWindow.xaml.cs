@@ -58,6 +58,8 @@ namespace AvaloniaEdit.Demo
             _textEditor.TextArea.TextEntering += textEditor_TextArea_TextEntering;
             _textEditor.Options.AllowToggleOverstrikeMode = true;
             _textEditor.Options.EnableTextDragDrop = true;
+            _textEditor.Options.ShowSpaces = false;
+            _textEditor.Options.ShowLeadingSpaces = true;
             _textEditor.Options.ShowBoxForControlCharacters = true;
             _textEditor.Options.ColumnRulerPositions = new List<int>() { 80, 100 };
             _textEditor.TextArea.IndentationStrategy = new Indentation.CSharp.CSharpIndentationStrategy(_textEditor.Options);
@@ -81,7 +83,7 @@ namespace AvaloniaEdit.Demo
                 (ThemeName)_currentTheme);
 
             _textMateInstallation = _textEditor.InstallTextMate(_registryOptions);
-            
+
             _textMateInstallation.AppliedTheme += TextMateInstallationOnAppliedTheme;
 
             Language csharpLanguage = _registryOptions.GetLanguageByExtension(".cs");
@@ -112,7 +114,7 @@ namespace AvaloniaEdit.Demo
             // Add a custom margin at the left of the text area, which can be clicked.
             _customMargin = new CustomMargin();
             _textEditor.TextArea.LeftMargins.Insert(0, _customMargin);
-            
+
             var mainWindowVM = new MainWindowViewModel(_textMateInstallation, _registryOptions);
             foreach (ThemeName themeName in Enum.GetValues<ThemeName>())
             {
@@ -124,8 +126,8 @@ namespace AvaloniaEdit.Demo
                 }
             }
             DataContext = mainWindowVM;
-            
-   
+
+
         }
 
         private void TextMateInstallationOnAppliedTheme(object sender, TextMate.TextMate.Installation e)
@@ -136,8 +138,8 @@ namespace AvaloniaEdit.Demo
 
         void ApplyThemeColorsToEditor(TextMate.TextMate.Installation e)
         {
-            ApplyBrushAction(e, "editor.background",brush => _textEditor.Background = brush);
-            ApplyBrushAction(e, "editor.foreground",brush => _textEditor.Foreground = brush);
+            ApplyBrushAction(e, "editor.background", brush => _textEditor.Background = brush);
+            ApplyBrushAction(e, "editor.foreground", brush => _textEditor.Foreground = brush);
 
             if (!ApplyBrushAction(e, "editor.selectionBackground",
                     brush => _textEditor.TextArea.SelectionBrush = brush))
@@ -193,8 +195,8 @@ namespace AvaloniaEdit.Demo
             }
 
             //Applying the Editor background to the whole window for demo sake.
-            ApplyBrushAction(e, "editor.background",brush => Background = brush);
-            ApplyBrushAction(e, "editor.foreground",brush => Foreground = brush);
+            ApplyBrushAction(e, "editor.background", brush => Background = brush);
+            ApplyBrushAction(e, "editor.foreground", brush => Foreground = brush);
         }
 
         bool ApplyBrushAction(TextMate.TextMate.Installation e, string colorKeyNameFromJson, Action<IBrush> applyColorAction)
