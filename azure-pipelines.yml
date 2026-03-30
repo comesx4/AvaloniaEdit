@@ -1,10 +1,16 @@
 variables:
-  packageVersion: '11.0.999-cibuild00$(Build.BuildId)-beta'
+  packageVersion: '11.4.999-cibuild00$(Build.BuildId)-beta'
 jobs:
 - job: Windows
   pool:
     vmImage: 'windows-2022'
   steps:
+
+  - task: UseDotNet@2
+    displayName: 'Install .NET 8 SDK'
+    inputs:
+      packageType: 'sdk'
+      version: '8.x'
 
   - task: DotNetCoreCLI@2
     inputs:
