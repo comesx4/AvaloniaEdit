@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2014 AlphaSierraPapa for the SharpDevelop Team
+// Copyright (c) 2014 AlphaSierraPapa for the SharpDevelop Team
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this
 // software and associated documentation files (the "Software"), to deal in the Software
@@ -18,15 +18,11 @@
 
 using System;
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Text;
 using Avalonia;
-using AvaloniaEdit.Document;
-using AvaloniaEdit.Editing;
-using AvaloniaEdit.Highlighting;
-using AvaloniaEdit.Rendering;
-using AvaloniaEdit.Utils;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Controls.Shapes;
@@ -34,8 +30,12 @@ using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.LogicalTree;
 using Avalonia.Media;
-using Avalonia.Data;
+using AvaloniaEdit.Document;
+using AvaloniaEdit.Editing;
+using AvaloniaEdit.Highlighting;
+using AvaloniaEdit.Rendering;
 using AvaloniaEdit.Search;
+using AvaloniaEdit.Utils;
 
 namespace AvaloniaEdit
 {
@@ -94,7 +94,7 @@ namespace AvaloniaEdit
 
         #endregion
 
-        protected override void OnGotFocus(GotFocusEventArgs e)
+        protected override void OnGotFocus(FocusChangedEventArgs e)
         {
             base.OnGotFocus(e);
             TextArea.Focus();
@@ -1118,6 +1118,8 @@ namespace AvaloniaEdit
         /// <remarks>
         /// This method sets <see cref="IsModified"/> to false.
         /// </remarks>
+        [SuppressMessage("Reliability", "CA2000:Dispose objects before losing scope",
+            Justification = "Method does not own the stream and should not dispose it.")]
         public void Save(Stream stream)
         {
             if (stream == null)

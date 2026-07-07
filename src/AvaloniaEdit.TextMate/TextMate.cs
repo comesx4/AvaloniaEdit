@@ -41,18 +41,19 @@ namespace AvaloniaEdit.TextMate
         {
             private bool _isDisposed;
             private readonly object _lock = new object();
-            private readonly IRegistryOptions _textMateRegistryOptions;
             private readonly Registry _textMateRegistry;
             private readonly TextEditor _editor;
             private Action<Exception> _exceptionHandler;
+            [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA2213:Disposable fields should be disposed",
+                Justification = "Disposed in Dispose(bool) and DisposeEditorModel methods")]
             private TextEditorModel _editorModel;
             private IGrammar _grammar;
             private TMModel _tmModel;
             private TextMateColoringTransformer _transformer;
             private readonly bool _ownsTransformer;
             private ReadOnlyDictionary<string, string> _themeColorsDictionary;
-            public IRegistryOptions RegistryOptions { get { return _textMateRegistryOptions; } }
-            public TextEditorModel EditorModel { get { return Volatile.Read(ref _editorModel); } }
+            public IRegistryOptions RegistryOptions { get; }
+            public TextEditorModel EditorModel => Volatile.Read(ref _editorModel);
 
             public event EventHandler<Installation> AppliedTheme;
 
@@ -78,7 +79,7 @@ namespace AvaloniaEdit.TextMate
                 bool initCurrentDocument = true,
                 Action<Exception> exceptionHandler = null)
             {
-                _textMateRegistryOptions = registryOptions ?? throw new ArgumentNullException(nameof(registryOptions));
+                RegistryOptions = registryOptions ?? throw new ArgumentNullException(nameof(registryOptions));
                 _editor = editor ?? throw new ArgumentNullException(nameof(editor));
                 _exceptionHandler = exceptionHandler;
 
